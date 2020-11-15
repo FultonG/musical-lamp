@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const db = require("./db/db");
 const cors = require("cors");
+const path = require("path");
 
 const user_routes = require("./routes/user");
 const pool_routes = require("./routes/pool");
@@ -18,7 +19,8 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static("uploads"));
+
+app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use("/user", user_routes);
 app.use("/pool", pool_routes);

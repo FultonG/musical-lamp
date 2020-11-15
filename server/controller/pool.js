@@ -9,7 +9,7 @@ const get = async (data) => {
 };
 
 const create = async (data) => {
-  const { _id, fee, account_id, expiration_date } = data;
+  const { _id, fee, account_id, expiration_date, title } = data;
 
   const { statusCode: userCode, response: user } = await mongo.findOne(
     User,
@@ -33,6 +33,7 @@ const create = async (data) => {
   }
 
   const poolData = {
+    title,
     creator: _id,
     fee,
     pool_size: fee,

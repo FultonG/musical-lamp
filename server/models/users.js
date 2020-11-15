@@ -55,6 +55,7 @@ const UserSchema = mongoose.Schema({
   level: { type: Number, required: false, default: 0 },
   level_up_exp: { type: Number, required: false, default: 100 },
   pools: { type: Array, required: false },
+  expired_pools: { type: Array, required: false },
   balance: { type: Number, required: false, default: 0 },
   account: { type: Object, required: false },
   customer: { type: Object, required: false },

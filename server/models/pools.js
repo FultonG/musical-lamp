@@ -5,6 +5,7 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
 const PoolSchema = mongoose.Schema({
+  title: { type: String, required: [true, "Please provide a pool title"] },
   creator: { type: String, required: [true, "Please provide a creator"] },
   fee: { type: Number, required: [true, "Please provide a pool entrence fee"] },
   pool_size: { type: Number, required: false },
