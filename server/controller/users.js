@@ -39,22 +39,22 @@ const findOne = async (data, filter) => {
 };
 
 const login = async (data) => {
-  const { username, password } = data;
+  const { username, password: pwd } = data;
   if (!username) {
     return response(400, "Username not passed");
-  } else if (!password) {
+  } else if (!pwd) {
     return response(400, "Password not passed");
   }
 
   const { response: user } = await findOne({ username }, { __v: 0 });
   const { password: hashedPwd } = user;
-
-  const isSame = await bcrypt.compare(password, hashedPwd);
+  const isSame = await bcrypt.compare(pwd, hashedPwd);
   if (!isSame) {
     return response(400, "Wrong password");
   }
 
-  return response(200, user);
+  const { password, ...userData } = user.toObject();
+  return response(200, userData);
 };
 
 module.exports = { create, findOne, login };
