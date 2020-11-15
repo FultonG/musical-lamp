@@ -38,4 +38,23 @@ const findOne = async (data, filter) => {
   return await mongo.findOne(User, data, filter);
 };
 
-module.exports = { create, findOne };
+const login = async (data) => {
+  const { username, password } = data;
+  if (!username) {
+    return response(400, "Username not passed");
+  } else if (!password) {
+    return response(400, "Password not passed");
+  }
+
+  const { response: user } = await findOne({ username }, { __v: 0 });
+  const { password: hashedPwd } = user;
+
+  const isSame = await bcrypt.compare(password, hashedPwd);
+  if (!isSame) {
+    return response(400, "Wrong password");
+  }
+
+  return response(200, user);
+};
+
+module.exports = { create, findOne, login };
