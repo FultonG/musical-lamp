@@ -5,13 +5,9 @@ const CAPITAL_API = process.env.CAPITAL_API;
 
 const customer = async (data) => {
   const customer = new Customer(data);
-  const invalid = await customer
-    .save()
-    .then(() => undefined)
-    .catch((e) => {
-      const missingKey = validation(e);
-      return missingKey;
-    });
+
+  let invalid = false;
+  await customer.validate((e) => (invalid = validation(e)));
   if (invalid) {
     return { customerErr: invalid, customer: null };
   }
@@ -32,13 +28,9 @@ const customer = async (data) => {
 
 const account = async (id, data) => {
   const address = new Account(data);
-  const invalid = await address
-    .save()
-    .then(() => undefined)
-    .catch((e) => {
-      const missingKey = validation(e);
-      return { customerErr: missingKey, customer: null };
-    });
+
+  let invalid = false;
+  await address.validate((e) => (invalid = validation(e)));
   if (invalid) {
     return { accountErr: invalid, account: null };
   }
