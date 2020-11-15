@@ -41,7 +41,6 @@ const rewardWinners = async (users, reward) => {
 
 const job = new CronJob("0 */1 * * * *", async () => {
   const currentDate = Date.now();
-  console.log(currentDate);
   const { statusCode, response: expiredPools } = await mongo.find(Pool, {
     expiration_date: { $lte: currentDate },
     is_expired: false,
