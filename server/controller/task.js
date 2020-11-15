@@ -29,19 +29,26 @@ const complete = async (data) => {
   }
 
   const { title, multiplier } = taskData;
-  const { tasks_completed, tasks_completed_int, exp } = userData;
+  const { exp, level_up_exp, level } = userData;
 
   const dateCompleted = Date.now();
   const newExp = Math.round(multiplier * value * 100) / 100;
   const recordTaskData = { title, exp: newExp, value, date: dateCompleted };
+
+  let addToLevel = 0;
+  let nextLevelExp = level_up_exp;
+  while (exp + newExp >= nextLevelExp) {
+    addToLevel += 1;
+    nextLevelExp = Math.round(nextLevelExp * 1.25);
+  }
 
   await mongo.updateOne(
     User,
     { _id },
     {
       $push: { tasks_completed: recordTaskData },
-      tasks_completed_int: tasks_completed_int + 1,
-      exp: exp + newExp,
+      $inc: { tasks_completed_int: 1, exp: newExp, level: addToLevel },
+      level_up_exp: nextLevelExp,
     }
   );
   return mongo.findOne(User, { _id }, { __v: 0, password: 0 });

@@ -41,7 +41,6 @@ const UserSchema = mongoose.Schema({
     type: Address,
     required: [true, "Please provide address information"],
   },
-  exp: { type: Number, required: false, default: 0.0 },
   tasks_completed: {
     type: Array,
     required: false,
@@ -52,6 +51,9 @@ const UserSchema = mongoose.Schema({
     required: false,
     default: 0,
   },
+  exp: { type: Number, required: false, default: 0.0 },
+  level: { type: Number, required: false, default: 0 },
+  level_up_exp: { type: Number, required: false, default: 100 },
   pools: { type: Array, required: false },
   balance: { type: Number, required: false, default: 0 },
   account: { type: Object, required: false },
