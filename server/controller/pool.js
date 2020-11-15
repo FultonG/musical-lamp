@@ -9,8 +9,14 @@ const get = async (data) => {
 };
 
 const create = async (data) => {
-  const { _id, fee, account_id } = data;
-  const poolData = { creator: _id, fee, pool_size: fee, members: [_id] };
+  const { _id, fee, account_id, expiration_date } = data;
+  const poolData = {
+    creator: _id,
+    fee,
+    pool_size: fee,
+    members: [_id],
+    expiration_date,
+  };
 
   const { statusCode: userCode, response: user } = await mongo.findOne(
     User,
@@ -61,7 +67,7 @@ const invitePool = async (data) => {
     {}
   );
   if (userCode != 200) {
-    return response(400, "Invalid user id");
+    return response(400, "User not found");
   }
 
   const { statusCode: toAddCode, response: toAddUser } = await mongo.findOne(
@@ -79,13 +85,13 @@ const invitePool = async (data) => {
     {}
   );
   if (poolCode != 200) {
-    return response(400, "Invalid pool id");
+    return response(400, "Pool not found");
   }
 
   const { fee, pool_size, creator } = pool;
   const { balance, pools } = toAddUser;
   if (creator != _id) {
-    return response(400, "Only the creator of a pool and add users");
+    return response(400, "Only the creator of a pool can add users");
   }
   if (balance < fee) {
     return response(400, "Insufficient funds for user you are trying to add");
