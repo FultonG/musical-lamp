@@ -41,6 +41,7 @@ const UserSchema = mongoose.Schema({
     type: Address,
     required: [true, "Please provide address information"],
   },
+  pools: { type: Array, required: false },
   balance: { type: Number, required: false, default: 0 },
   account: { type: Object, required: false },
   customer: { type: Object, required: false },

@@ -3,10 +3,9 @@ const { validation, isNotUnique } = require("../utils/mongo");
 
 const create = async (model, data) => {
   try {
-    await model.create(data);
+    const { _id } = await model.create(data);
 
-    const { username } = data;
-    const result = await findOne(model, { username }, { __v: 0 });
+    const result = await findOne(model, { _id }, { __v: 0 });
 
     return result;
   } catch (e) {
@@ -45,6 +44,15 @@ const findOneAndUpdate = async (model, data, update, filter) => {
     return response(400, user);
   } catch (e) {
     console.log(e);
+    return response(500, e.message);
+  }
+};
+
+const updateOne = async (model, data, update) => {
+  try {
+    model.updateOne(data, update);
+    return response(200, "worked");
+  } catch (e) {
     return response(500, e.message);
   }
 };
