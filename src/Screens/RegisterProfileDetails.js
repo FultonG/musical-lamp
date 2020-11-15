@@ -73,7 +73,7 @@ const RegisterProfileDetails = () => {
       let res = await API.createUser({...auth, ...data});
       console.log(res.data);
     } catch(e){
-      console.log(e);
+      console.log(e, e.message);
     }
     
   }
