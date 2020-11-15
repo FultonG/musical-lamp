@@ -9,8 +9,7 @@ const getCurrentTasks = async (_id, poolId) => {
   await mongo.updateOne(
     User,
     { _id },
-    { $pull: { pools: poolId } },
-    { $push: { expired_pools: poolId } }
+    { $pull: { pools: poolId }, $push: { expired_pools: poolId } }
   );
   const { statusCode, response } = await mongo.findOne(User, { _id });
   if (statusCode != 200) {
