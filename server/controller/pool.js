@@ -60,7 +60,7 @@ const create = async (data) => {
     { _id },
     { $push: { pools: poolId }, balance: balance - fee }
   );
-  const updatedUser = await mongo.findOne(
+  const { response: updatedUser } = await mongo.findOne(
     User,
     { _id },
     { __v: 0, password: 0 }
