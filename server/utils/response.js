@@ -1,6 +1,5 @@
-
 const response = (statusCode, res) => {
-    return {statusCode, response: res}
-}
+  return { statusCode, response: res };
+};
 
-module.exports = {response}
+module.exports = { response };
