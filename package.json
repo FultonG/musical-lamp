@@ -1,22 +1,13 @@
 {
-  "name": "musical-lamp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./server/server.js"
+    "dev": "nodemon ./server/server.js",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FultonG/musical-lamp.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/FultonG/musical-lamp/issues"
-  },
-  "homepage": "https://github.com/FultonG/musical-lamp#readme",
   "dependencies": {
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
@@ -25,6 +16,28 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.14",
     "mongoose-unique-validator": "^2.0.3",
-    "nodemon": "^2.0.6"
-  }
+    "nodemon": "^2.0.6",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.8.9",
+    "@react-navigation/stack": "^5.12.6",
+    "expo": "~39.0.2",
+    "expo-status-bar": "~1.0.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
+    "react-native-fix-image": "^2.0.1",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-reanimated": "^1.13.1",
+    "react-native-safe-area-context": "3.1.4",
+    "react-native-screens": "^2.14.0",
+    "react-native-vector-icons": "^7.1.0",
+    "react-native-web": "~0.13.12",
+    "styled-components": "^5.2.1",
+    "expo-image-picker": "~9.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.9.0"
+  },
+  "homepage": "https://github.com/FultonG/musical-lamp#readme",
+  "private": true
 }
