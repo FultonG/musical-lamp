@@ -15,8 +15,8 @@ router.post("/create", async (req, res) => {
   res.status(statusCode).send({ response });
 });
 
-router.get("/add/:_id/:toAddId/:poolId", async (req, res) => {
-  const data = req.params;
+router.post("/add", async (req, res) => {
+  const data = req.body;
 
   const { statusCode, response } = await controller.invitePool(data);
   res.status(statusCode).send({ response });
