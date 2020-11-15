@@ -1,7 +1,19 @@
 const router = require("express").Router();
+const multer = require("multer");
 const controller = require("../controller/users");
 
-router.post("/create", async (req, res) => {
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+var upload = multer({ storage: storage });
+
+router.post("/create", upload.single("avatar"), async (req, res) => {
   const data = req.body;
   const { statusCode, response } = await controller.create(data);
 

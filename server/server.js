@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("uploads"));
 
 app.use("/user", user_routes);
 app.use("/pool", pool_routes);
