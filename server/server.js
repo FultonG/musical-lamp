@@ -7,6 +7,7 @@ const cors = require("cors");
 const user_routes = require("./routes/user");
 const pool_routes = require("./routes/pool");
 const task_routes = require("./routes/tasks");
+const job = require("./cron");
 
 const app = express();
 db.then(() => console.log("Connected to MongoDB")).catch((err) =>
@@ -21,6 +22,8 @@ app.use(express.json());
 app.use("/user", user_routes);
 app.use("/pool", pool_routes);
 app.use("/task", task_routes);
+
+job.start();
 
 app.get("/", (req, res) => {
   res.send({ msg: "Default endpoint" });

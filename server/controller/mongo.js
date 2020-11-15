@@ -18,6 +18,16 @@ const create = async (model, data) => {
   }
 };
 
+const find = async (model, data) => {
+  try {
+    const user = await model.find(data);
+
+    return response(200, user);
+  } catch (e) {
+    return response(500, e.message);
+  }
+};
+
 const findOne = async (model, data, filter) => {
   try {
     const user = await model.findOne(data).select(filter);
@@ -56,4 +66,4 @@ const updateOne = async (model, data, update) => {
   }
 };
 
-module.exports = { create, findOne, findOneAndUpdate, updateOne };
+module.exports = { create, find, findOne, findOneAndUpdate, updateOne };

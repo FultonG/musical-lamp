@@ -13,6 +13,7 @@ const PoolSchema = mongoose.Schema({
     type: Number,
     required: [true, "Please provide an expiration date"],
   },
+  is_expired: { type: Boolean, required: false, default: false },
 });
 
 module.exports = {

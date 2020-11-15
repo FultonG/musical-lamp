@@ -10,28 +10,19 @@ const get = async (data) => {
 
 const create = async (data) => {
   const { _id, fee, account_id, expiration_date } = data;
-  const poolData = {
-    creator: _id,
-    fee,
-    pool_size: fee,
-    members: [_id],
-    expiration_date,
-  };
 
   const { statusCode: userCode, response: user } = await mongo.findOne(
     User,
     { _id },
-    { balance: 1 }
+    {}
   );
   if (userCode != 200) {
     return response(400, "Invalid user id");
   }
-
-  const { balance } = user;
+  const { balance, tasks_completed_int } = user;
   if (balance < fee) {
     return response(400, "Insufficient funds");
   }
-
   const withdrawalData = { medium: "balance", amount: fee };
   const { withdrawalErr } = await finance.withdrawal(
     account_id,
@@ -40,6 +31,14 @@ const create = async (data) => {
   if (withdrawalErr) {
     return response(500, withdrawalErr);
   }
+
+  const poolData = {
+    creator: _id,
+    fee,
+    pool_size: fee,
+    members: [{ _id, startTasksInt: tasks_completed_int }],
+    expiration_date,
+  };
 
   const { statusCode: poolCode, response: pool } = await mongo.create(
     Pool,
@@ -101,6 +100,8 @@ const invitePool = async (data) => {
     return response(400, "User already in pool");
   }
 
+  const { tasks_completed_int } = user;
+  const toAddData = { _id: toAddId, startTasksInt: tasks_completed_int };
   await mongo.updateOne(
     User,
     { _id: toAddId },
@@ -109,7 +110,7 @@ const invitePool = async (data) => {
   await mongo.updateOne(
     Pool,
     { _id: poolId },
-    { $push: { members: toAddId }, pool_size: pool_size + fee }
+    { $push: { members: toAddData }, pool_size: pool_size + fee }
   );
 
   return await mongo.findOne(Pool, { _id: poolId }, { __v: 0 });
