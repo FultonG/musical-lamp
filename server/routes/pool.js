@@ -8,6 +8,13 @@ router.get("/get/:_id", async (req, res) => {
   res.status(statusCode).send({ response });
 });
 
+router.post("/get_batch", async (req, res) => {
+  const data = req.body;
+
+  const { statusCode, response } = await controller.getIn(data);
+  res.status(statusCode).send({ response });
+});
+
 router.post("/create", async (req, res) => {
   const data = req.body;
 
