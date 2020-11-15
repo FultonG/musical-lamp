@@ -7,6 +7,15 @@ const API = {
   }}),
   login: (data) => axios.post(`http://${API_BASE}:${API_PORT}/user/login`, data, {headers: {
     'Cache-Control': 'no-cache'
+  }}),
+  createPool: (data) => axios.post(`http://${API_BASE}:${API_PORT}/pool/create`, data, {headers: {
+    'Cache-Control': 'no-cache'
+  }}),
+  getPools: (data) => axios.post(`http://${API_BASE}:${API_PORT}/pool/get_batch`, data, {headers: {
+    'Cache-Control': 'no-cache'
+  }}),
+  addToPool: (data) => axios.post(`http://${API_BASE}:${API_PORT}/pool/add`, data, {headers: {
+    'Cache-Control': 'no-cache'
   }})
 }
 

@@ -11,6 +11,15 @@ export const Button = styled.TouchableHighlight`
   margin: 10px;
 `;
 
+export const SmallButton = styled.TouchableHighlight`
+  background-color: #7169e0;
+  width: 100px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 export const ButtonText = styled.Text`
   color: #f3f2fc;
   font-weight: 500;

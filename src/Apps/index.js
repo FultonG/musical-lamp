@@ -12,7 +12,6 @@ const AppSwitcher = () => {
     (async () => {
       try {
         let user = await AsyncStorage.getItem('User');
-        console.log(user);
         if(user !== null){
           dispatch({ type: 'UPDATE_USER', payload: { user: JSON.parse(user), auth: true } })
         }

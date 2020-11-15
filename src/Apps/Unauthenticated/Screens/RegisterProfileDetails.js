@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import Input from '../../../Components/Input';
 import styled from 'styled-components';
 import { Paragraph, TextHighlight, Title } from '../../../Components/Text';
@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuthState } from '../../../Context/AuthContext';
 import API from '../../../API';
+import { useAppReducer } from '../../../Context/AppContext';
 
 const TitleContainer = styled.View`
   display: flex;
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
 const RegisterProfileDetails = () => {
   let auth = useAuthState();
   let [data, setData] = useState(auth);
+  let dispatch = useAppReducer();
   const [image, setImage] = useState(null);
   useEffect(() => {
     (async () => {
@@ -71,13 +73,18 @@ const RegisterProfileDetails = () => {
     try{
       let formData = new FormData();
       for (const [key, value] of Object.entries(data)) {
-        console.log(`${key}: ${value}`);
         if(key === 'address'){
           formData.append(key, JSON.stringify(value));
+        } else {
+          formData.append(key, value);
         }
-        formData.append(key, value);
       }
-      formData.append('avatar', image);
+      formData.append('avatar', {
+        name: image.fileName,
+        type: image.type,
+        uri: Platform.OS === 'android' ? image.uri : image.uri.replace('file://', ''),
+      });
+      console.log(formData);
       let res = await API.createUser(formData);
       dispatch({type: 'UPDATE_USER', payload: { user: {...res.data.response}, auth: true}})
     } catch(e){
@@ -105,7 +112,7 @@ const RegisterProfileDetails = () => {
     console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result);
     }
   };
   return (
@@ -119,7 +126,7 @@ const RegisterProfileDetails = () => {
                 <Paragraph>This information will be displayed on your <TextHighlight>Project</TextHighlight> Profile!</Paragraph>
               </TitleContainer>
               <IconContainer onPress={pickImage}>
-                {image ? <ProfileImage source={{ uri: image }} /> : <Icon name="md-person-add" size={30} color="#6e66df"></Icon>}
+                {image ? <ProfileImage source={{ uri: image.uri }} /> : <Icon name="md-person-add" size={30} color="#6e66df"></Icon>}
               </IconContainer>
               {image === null && <Paragraph>Upload a Profile Picture</Paragraph>}
               <Input placeholder="First Name" autoCompleteType="name" value={data.first_name} onChangeText={(text) => handleInputChange(text, 'first_name')} placeholderTextColor="#a2a4bd"></Input>
