@@ -56,7 +56,7 @@ const rewardWinners = async (users, reward) => {
 };
 
 const job = new CronJob("0 */1 * * * *", async () => {
-  const currentDate = Date.now();
+  const currentDate = Math.round(Date.now() / 1000);
   const { statusCode, response: expiredPools } = await mongo.find(Pool, {
     expiration_date: { $lte: currentDate },
     is_expired: false,
@@ -73,6 +73,7 @@ const job = new CronJob("0 */1 * * * *", async () => {
     console.log(winners);
 
     const reward = Math.round((pool_size / winners.length) * 100) / 100;
+    console.log(pool_size, reward);
     await rewardWinners(winners, reward);
 
     await mongo.updateOne(Pool, { _id }, { is_expired: true });
