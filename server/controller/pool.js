@@ -8,10 +8,10 @@ const get = async (data) => {
   return await mongo.findOne(Pool, data, { __v: 0 });
 };
 
-const getIn = async(data) => {
-  const {ids} = data;
-  return await mongo.find(Pool,{ "_id": { "$in":  ids} });
-}
+const getIn = async (data) => {
+  const { ids } = data;
+  return await mongo.find(Pool, { _id: { $in: ids } }, {});
+};
 
 const create = async (data) => {
   const { _id, fee, account_id, expiration_date, title } = data;

@@ -18,9 +18,9 @@ const create = async (model, data) => {
   }
 };
 
-const find = async (model, data) => {
+const find = async (model, data, filter) => {
   try {
-    const user = await model.find(data);
+    const user = await model.find(data).select(filter);
 
     return response(200, user);
   } catch (e) {

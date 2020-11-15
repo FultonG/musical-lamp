@@ -57,10 +57,14 @@ const rewardWinners = async (users, reward) => {
 
 const job = new CronJob("0 */1 * * * *", async () => {
   const currentDate = Math.round(Date.now() / 1000);
-  const { statusCode, response: expiredPools } = await mongo.find(Pool, {
-    expiration_date: { $lte: currentDate },
-    is_expired: false,
-  });
+  const { statusCode, response: expiredPools } = await mongo.find(
+    Pool,
+    {
+      expiration_date: { $lte: currentDate },
+      is_expired: false,
+    },
+    {}
+  );
   if (statusCode != 200) {
     console.log("Error in cron job");
   }

@@ -37,7 +37,7 @@ const create = async (data) => {
 
 const getIn = async (data) => {
   const { ids } = data;
-  return await mongo.find(User, { _id: { $in: ids } });
+  return await mongo.find(User, { _id: { $in: ids } }, { __v: 0, password: 0 });
 };
 
 const findOne = async (data, filter) => {

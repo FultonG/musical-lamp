@@ -4,7 +4,7 @@ const { Task } = require("../models/tasks");
 const controller = require("../controller/task");
 
 router.get("/get", async (req, res) => {
-  const { statusCode, response } = await mongo.find(Task, {});
+  const { statusCode, response } = await mongo.find(Task, {}, { __v: 0 });
   res.status(statusCode).send({ response });
 });
 router.post("/create", async (req, res) => {
