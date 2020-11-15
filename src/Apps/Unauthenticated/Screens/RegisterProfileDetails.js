@@ -69,8 +69,17 @@ const RegisterProfileDetails = () => {
 
   const handleTransition = async () => {
     try{
-      let res = await API.createUser({...auth, ...data});
-      dispatch({type: 'UPDATE_USER', payload: { user: {...res.data}, auth: true}})
+      let formData = new FormData();
+      for (const [key, value] of Object.entries(data)) {
+        console.log(`${key}: ${value}`);
+        if(key === 'address'){
+          formData.append(key, JSON.stringify(value));
+        }
+        formData.append(key, value);
+      }
+      formData.append('avatar', image);
+      let res = await API.createUser(formData);
+      dispatch({type: 'UPDATE_USER', payload: { user: {...res.data.response}, auth: true}})
     } catch(e){
       console.log(e, e.message);
     }

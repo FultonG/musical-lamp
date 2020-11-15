@@ -7,6 +7,7 @@ import PageContainer from '../../../Components/PageContainer';
 import Input from '../../../Components/Input';
 import API from '../../../API';
 import { useAppReducer } from '../../../Context/AppContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TitleContainer = styled.View`
   display: flex;
@@ -33,7 +34,8 @@ const Login = ({navigation}) => {
   const handleTransition = async () => {
     try{
       let res = await API.login(data);
-      dispatch({type: 'UPDATE_USER', payload: { user: {...res.data}, auth: true}})
+      await AsyncStorage.setItem('User', JSON.stringify(res.data.response));
+      dispatch({type: 'UPDATE_USER', payload: { user: {...res.data.response}, auth: true}})
     } catch(e){
       console.log(e);
     }

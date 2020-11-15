@@ -3,7 +3,6 @@ import { useAppReducer, useAppState } from '../Context/AppContext';
 import { AuthStateProvider } from "../../src/Context/AuthContext";
 import Unauthenticated from './Unauthenticated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Text} from 'react-native';
 import Authenticated from './Authenticated';
 
 const AppSwitcher = () => {
@@ -13,6 +12,7 @@ const AppSwitcher = () => {
     (async () => {
       try {
         let user = await AsyncStorage.getItem('User');
+        console.log(user);
         if(user !== null){
           dispatch({ type: 'UPDATE_USER', payload: { user: JSON.parse(user), auth: true } })
         }
