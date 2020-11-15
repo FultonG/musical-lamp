@@ -20,6 +20,13 @@ router.post("/create", upload.single("avatar"), async (req, res) => {
   res.status(statusCode).send({ response });
 });
 
+router.post("/get_batch", async (req, res) => {
+  const data = req.body;
+
+  const { statusCode, response } = await controller.getIn(data);
+  res.status(statusCode).send({ response });
+});
+
 router.get("/get", async (req, res) => {
   const query = req.query;
 

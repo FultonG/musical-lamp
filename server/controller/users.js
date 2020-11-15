@@ -35,6 +35,11 @@ const create = async (data) => {
   return await mongo.create(User, data);
 };
 
+const getIn = async (data) => {
+  const { ids } = data;
+  return await mongo.find(User, { _id: { $in: ids } });
+};
+
 const findOne = async (data, filter) => {
   return await mongo.findOne(User, data, filter);
 };
@@ -58,4 +63,4 @@ const login = async (data) => {
   return response(200, userData);
 };
 
-module.exports = { create, findOne, login };
+module.exports = { create, findOne, login, getIn };
