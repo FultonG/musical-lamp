@@ -55,7 +55,12 @@ const create = async (data) => {
     { _id },
     { $push: { pools: poolId }, balance: balance - fee }
   );
-  return { statusCode: poolCode, response: pool };
+  const updatedUser = await mongo.findOne(
+    User,
+    { _id },
+    { __v: 0, password: 0 }
+  );
+  return { statusCode: poolCode, response: { pool, user: updatedUser } };
 };
 
 const invitePool = async (data) => {
