@@ -23,7 +23,7 @@ const create = async (data) => {
     type: "Checking",
     nickname: first_name,
     rewards: 0,
-    balance: Number(balance) || 0,
+    balance: Number(balance) || 50,
   };
   const { accountErr, account } = await finance.account(customer, accountData);
   if (accountErr) {
