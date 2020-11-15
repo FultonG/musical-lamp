@@ -6,6 +6,8 @@ import { Paragraph, TextHighlight, Title } from '../Components/Text';
 import { Button, ButtonText } from '../Components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
+import { useAuthReducer, useAuthState } from '../Context/AuthContext';
+import API from '../API';
 
 const TitleContainer = styled.View`
   display: flex;
@@ -51,6 +53,9 @@ const styles = StyleSheet.create({
 })
 
 const RegisterProfileDetails = () => {
+  let auth = useAuthState();
+  let dispatch = useAuthReducer();
+  let [data, setData] = useState(auth);
   const [image, setImage] = useState(null);
   useEffect(() => {
     (async () => {
@@ -62,6 +67,24 @@ const RegisterProfileDetails = () => {
       }
     })();
   }, []);
+
+  const handleTransition = async () => {
+    try{
+      let res = await API.createUser({...auth, ...data});
+      console.log(res.data);
+    } catch(e){
+      console.log(e);
+    }
+    
+  }
+
+  const handleInputChange = (val, attr) => {
+    setData(prev => ({...prev, [attr]: val}))
+  }
+
+  const handleAddressChange = (val, attr) => {
+    setData(prev => ({...prev, address: {...prev.address, [attr]: val}}))
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -91,18 +114,18 @@ const RegisterProfileDetails = () => {
                 {image ? <ProfileImage source={{ uri: image }} /> : <Icon name="md-person-add" size={30} color="#6e66df"></Icon>}
               </IconContainer>
               {image === null && <Paragraph>Upload a Profile Picture</Paragraph>}
-              <Input placeholder="First Name" autoCompleteType="name" placeholderTextColor="#a2a4bd"></Input>
-              <Input placeholder="Last Name" placeholderTextColor="#a2a4bd"></Input>
+              <Input placeholder="First Name" autoCompleteType="name" value={data.first_name} onChangeText={(text) => handleInputChange(text, 'first_name')} placeholderTextColor="#a2a4bd"></Input>
+              <Input placeholder="Last Name" value={data.last_name} onChangeText={(text) => handleInputChange(text, 'last_name')} placeholderTextColor="#a2a4bd"></Input>
               <TitleContainer>
                 <Title>Address</Title>
                 <Paragraph>Your address will not be visible on your profile but will be used for some location based challenges</Paragraph>
               </TitleContainer>
-              <Input placeholder="Street Number" autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
-              <Input placeholder="Street Name" autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
-              <Input placeholder="City" autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
-              <Input placeholder="State" autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
-              <Input placeholder="Zip" autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
-              <Button><ButtonText>Create Account</ButtonText></Button>
+              <Input placeholder="Street Number" value={data.address.street_number} onChangeText={(text) => handleAddressChange(text, 'street_number')} autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
+              <Input placeholder="Street Name" value={data.address.street_name} onChangeText={(text) => handleAddressChange(text, 'street_name')} autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
+              <Input placeholder="City" value={data.address.city} onChangeText={(text) => handleAddressChange(text, 'city')} autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
+              <Input placeholder="State" value={data.address.state} onChangeText={(text) => handleAddressChange(text, 'state')} autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
+              <Input placeholder="Zip" value={data.address.zip} onChangeText={(text) => handleAddressChange(text, 'zip')} autoCompleteType="street-address" placeholderTextColor="#a2a4bd"></Input>
+              <Button onPress={handleTransition}><ButtonText>Create Account</ButtonText></Button>
             </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>

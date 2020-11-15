@@ -1,7 +1,20 @@
 import React, {createContext, useContext, useReducer} from 'react'
 import AuthReducer from './AuthReducer';
 
-let initialState = {};
+let initialState = {
+  username: "",
+  password: "",
+  first_name: "",
+  last_name: "",
+  profileImage: "",
+  address: {
+    street_name: "",
+    street_number: "",
+    zip: "",
+    city: "",
+    state: ""
+  }
+};
 
 export function useAuthState() {
   return useContext(AuthContext)[0];

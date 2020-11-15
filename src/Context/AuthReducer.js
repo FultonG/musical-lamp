@@ -7,8 +7,8 @@ const AuthReducer = (state, action) => {
   }
 }
 
-function updateForm(state, user){
-  return {...state, user};
+function updateForm(state, data){
+  return {...state, ...data};
 }
 
 export default AuthReducer;
