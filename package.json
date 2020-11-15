@@ -32,5 +32,6 @@
   "devDependencies": {
     "@babel/core": "~7.9.0"
   },
+  "homepage": "https://github.com/FultonG/musical-lamp#readme",
   "private": true
 }
