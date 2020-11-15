@@ -66,4 +66,18 @@ const withdrawal = async (id, data) => {
     });
 };
 
-module.exports = { customer, account, withdrawal };
+const deposit = async (id, data) => {
+  return await axios
+    .post(
+      `http://api.reimaginebanking.com/accounts/${id}/deposits?key=${CAPITAL_API}`,
+      data
+    )
+    .then((res) => {
+      return { depositErr: null, depositl: res.data };
+    })
+    .catch((err) => {
+      return { depositErr: err.message, deposit: null };
+    });
+};
+
+module.exports = { customer, account, withdrawal, deposit };

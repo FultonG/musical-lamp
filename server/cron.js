@@ -1,9 +1,17 @@
 const CronJob = require("cron").CronJob;
 const { Pool } = require("./models/pools");
 const { User } = require("./models/users");
+const { deposit } = require("./controller/finance");
 const mongo = require("./controller/mongo");
+const pool = require("./controller/pool");
 
-const getCurrentTasks = async (_id) => {
+const getCurrentTasks = async (_id, poolId) => {
+  await mongo.updateOne(
+    User,
+    { _id },
+    { $pull: { pools: poolId } },
+    { $push: { expired_pools: poolId } }
+  );
   const { statusCode, response } = await mongo.findOne(User, { _id });
   if (statusCode != 200) {
     return 0;
@@ -11,12 +19,12 @@ const getCurrentTasks = async (_id) => {
   return response.tasks_completed_int;
 };
 
-const getWinners = async (users) => {
+const getWinners = async (users, poolId) => {
   let currentWinners = [];
   let maxDifference = 0;
 
   for (const user of users) {
-    const currentTasks = await getCurrentTasks(user._id);
+    const currentTasks = await getCurrentTasks(user._id, poolId);
     const startTasks = user.startTasksInt;
 
     const difference = currentTasks - startTasks;
@@ -34,7 +42,16 @@ const getWinners = async (users) => {
 
 const rewardWinners = async (users, reward) => {
   for (const user of users) {
-    await mongo.updateOne(User, { _id: user }, { $inc: { balance: reward } });
+    const { statusCode, response } = await mongo.findOne(User, { _id: user });
+    if (statusCode != 200) {
+      continue;
+    }
+
+    const { _id, account } = response;
+    await mongo.updateOne(User, { _id }, { $inc: { balance: reward } });
+
+    const depositData = { medium: "balance", amount: reward };
+    await deposit(account, depositData);
     console.log(`rewarded ${user}`);
   }
 };
@@ -53,7 +70,7 @@ const job = new CronJob("0 */1 * * * *", async () => {
 
   expiredPools.forEach(async (pool) => {
     const { members, pool_size, _id } = pool;
-    const winners = await getWinners(members);
+    const winners = await getWinners(members, _id);
     console.log(winners);
 
     const reward = Math.round((pool_size / winners.length) * 100) / 100;
