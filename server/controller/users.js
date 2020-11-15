@@ -6,7 +6,8 @@ const { User } = require("../models/users");
 const { response } = require("../utils/response");
 
 const create = async (data) => {
-  const { address, first_name, last_name, balance, password: pwd } = data;
+  const address = JSON.parse(data.address || "{}");
+  const { first_name, last_name, balance, password: pwd } = data;
 
   const customerData = {
     address,
@@ -22,7 +23,7 @@ const create = async (data) => {
     type: "Checking",
     nickname: first_name,
     rewards: 0,
-    balance: balance || 0,
+    balance: Number(balance) || 0,
   };
   const { accountErr, account } = await finance.account(customer, accountData);
   if (accountErr) {
@@ -30,7 +31,7 @@ const create = async (data) => {
   }
 
   const password = await bcrypt.hash(pwd, SALT);
-  data = { ...data, customer, account, password };
+  data = { ...data, address, customer, account, password };
   return await mongo.create(User, data);
 };
 
