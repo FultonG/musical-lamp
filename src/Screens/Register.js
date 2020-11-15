@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {TextHighlight, Paragraph, Title} from '../Components/Text';
 import {Button, ButtonText} from '../Components/Button';
+import { TouchableHighlight } from 'react-native';
 
 const PageContainer = styled.SafeAreaView`
   display: flex;
@@ -41,7 +42,7 @@ const Register = ({navigation}) => {
       </IntroContainer>
       <ActionContainer>
         <Button onPress={()=> navigation.navigate('RegisterForm')}><ButtonText>Get Started</ButtonText></Button>
-        <Paragraph>Already have an account? <TextHighlight>Sign in</TextHighlight></Paragraph>
+        <Paragraph>Already have an account? <TextHighlight onPress={() => navigation.navigate('Login')}>Sign in</TextHighlight></Paragraph>
       </ActionContainer>
     </PageContainer>
   )

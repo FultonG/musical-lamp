@@ -6,7 +6,7 @@ import { Paragraph, TextHighlight, Title } from '../Components/Text';
 import { Button, ButtonText } from '../Components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { useAuthReducer, useAuthState } from '../Context/AuthContext';
+import { useAuthState } from '../Context/AuthContext';
 import API from '../API';
 
 const TitleContainer = styled.View`
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
 
 const RegisterProfileDetails = () => {
   let auth = useAuthState();
-  let dispatch = useAuthReducer();
   let [data, setData] = useState(auth);
   const [image, setImage] = useState(null);
   useEffect(() => {
