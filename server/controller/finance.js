@@ -27,10 +27,10 @@ const customer = async (data) => {
 };
 
 const account = async (id, data) => {
-  const address = new Account(data);
+  const account = new Account(data);
 
   let invalid = false;
-  await address.validate((e) => (invalid = validation(e)));
+  await account.validate((e) => (invalid = validation(e)));
   if (invalid) {
     return { accountErr: invalid, account: null };
   }
@@ -49,17 +49,6 @@ const account = async (id, data) => {
     })
     .catch((err) => {
       return { accountErr: err, account: null };
-    });
-};
-
-const getAccount = async (id) => {
-  return await axios
-    .get(`http://api.reimaginebanking.com/accounts/${id}?key=${CAPITAL_API}`)
-    .then((res) => {
-      return { accountErr: null, account: res.data };
-    })
-    .catch((err) => {
-      return { accountErr: err.message, account: null };
     });
 };
 
