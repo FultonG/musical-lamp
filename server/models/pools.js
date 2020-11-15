@@ -9,6 +9,11 @@ const PoolSchema = mongoose.Schema({
   fee: { type: Number, required: [true, "Please provide a pool entrence fee"] },
   pool_size: { type: Number, required: false },
   members: { type: Array, required: false },
+  expiration_date: {
+    type: Number,
+    required: [true, "Please provide an expiration date"],
+  },
+  is_expired: { type: Boolean, required: false, default: false },
 });
 
 module.exports = {

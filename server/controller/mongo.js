@@ -18,6 +18,16 @@ const create = async (model, data) => {
   }
 };
 
+const find = async (model, data) => {
+  try {
+    const user = await model.find(data);
+
+    return response(200, user);
+  } catch (e) {
+    return response(500, e.message);
+  }
+};
+
 const findOne = async (model, data, filter) => {
   try {
     const user = await model.findOne(data).select(filter);
@@ -28,7 +38,6 @@ const findOne = async (model, data, filter) => {
 
     return response(200, user);
   } catch (e) {
-    console.log(e);
     return response(500, e.message);
   }
 };
@@ -50,11 +59,11 @@ const findOneAndUpdate = async (model, data, update, filter) => {
 
 const updateOne = async (model, data, update) => {
   try {
-    model.updateOne(data, update);
-    return response(200, "worked");
+    await model.updateOne(data, update);
+    return response(200, "updated");
   } catch (e) {
     return response(500, e.message);
   }
 };
 
-module.exports = { create, findOne, findOneAndUpdate };
+module.exports = { create, find, findOne, findOneAndUpdate, updateOne };

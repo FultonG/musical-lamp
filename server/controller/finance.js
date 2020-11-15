@@ -52,4 +52,29 @@ const account = async (id, data) => {
     });
 };
 
-module.exports = { customer, account };
+const getAccount = async (id) => {
+  return await axios
+    .get(`http://api.reimaginebanking.com/accounts/${id}?key=${CAPITAL_API}`)
+    .then((res) => {
+      return { accountErr: null, account: res.data };
+    })
+    .catch((err) => {
+      return { accountErr: err.message, account: null };
+    });
+};
+
+const withdrawal = async (id, data) => {
+  return await axios
+    .post(
+      `http://api.reimaginebanking.com/accounts/${id}/withdrawals?key=${CAPITAL_API}`,
+      data
+    )
+    .then((res) => {
+      return { withdrawalErr: null, withdrawal: res.data };
+    })
+    .catch((err) => {
+      return { withdrawalErr: err.message, withdrawal: null };
+    });
+};
+
+module.exports = { customer, account, withdrawal };
