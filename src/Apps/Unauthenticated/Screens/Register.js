@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {TextHighlight, Paragraph, Title} from '../Components/Text';
-import {Button, ButtonText} from '../Components/Button';
-import { TouchableHighlight } from 'react-native';
+import {TextHighlight, Paragraph, Title} from '../../../Components/Text';
+import {Button, ButtonText} from '../../../Components/Button';
 
 const PageContainer = styled.SafeAreaView`
   display: flex;
@@ -38,7 +37,7 @@ const Register = ({navigation}) => {
       <IntroContainer>
         <Title>Welcome to <TextHighlight>Project</TextHighlight></Title>
         <Paragraph>The fun and easy way to get Fit!</Paragraph>
-        <RunningImage source={require('../../assets/running.png')}/>
+        <RunningImage source={require('../../../../assets/running.png')}/>
       </IntroContainer>
       <ActionContainer>
         <Button onPress={()=> navigation.navigate('RegisterForm')}><ButtonText>Get Started</ButtonText></Button>

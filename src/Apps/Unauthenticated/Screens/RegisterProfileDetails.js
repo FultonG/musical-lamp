@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
-import Input from '../Components/Input';
+import Input from '../../../Components/Input';
 import styled from 'styled-components';
-import { Paragraph, TextHighlight, Title } from '../Components/Text';
-import { Button, ButtonText } from '../Components/Button';
+import { Paragraph, TextHighlight, Title } from '../../../Components/Text';
+import { Button, ButtonText } from '../../../Components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { useAuthState } from '../Context/AuthContext';
-import API from '../API';
+import { useAuthState } from '../../../Context/AuthContext';
+import API from '../../../API';
 
 const TitleContainer = styled.View`
   display: flex;
@@ -70,7 +70,7 @@ const RegisterProfileDetails = () => {
   const handleTransition = async () => {
     try{
       let res = await API.createUser({...auth, ...data});
-      console.log(res.data);
+      dispatch({type: 'UPDATE_USER', payload: { user: {...res.data}, auth: true}})
     } catch(e){
       console.log(e, e.message);
     }
