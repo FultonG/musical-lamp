@@ -16,6 +16,16 @@ const API = {
   }}),
   addToPool: (data) => axios.post(`http://${API_BASE}:${API_PORT}/pool/add`, data, {headers: {
     'Cache-Control': 'no-cache'
+  }}),
+  getMembers: (data) => axios.post(`http://${API_BASE}:${API_PORT}/user/get_batch`, data, {headers: {
+    'Cache-Control': 'no-cache'
+  }}),
+  getTasks: () => axios.get(`http://${API_BASE}:${API_PORT}/task/get`),
+  addTask: (data) => axios.post(`http://${API_BASE}:${API_PORT}/task/complete`, data, {headers: {
+    'Cache-Control': 'no-cache'
+  }}),
+  getUser: (id) => axios.get(`http://${API_BASE}:${API_PORT}/user/get?_id=${id}`, {headers: {
+    'Cache-Control': 'no-cache'
   }})
 }
 

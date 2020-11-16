@@ -7,11 +7,10 @@ import {KeyboardAvoidingView, TouchableWithoutFeedback , Keyboard} from 'react-n
 import { useAppState } from '../../Context/AppContext';
 import API from '../../API';
 
-const PoolInvite = ({navigate, route}) => {
+const PoolInvite = ({navigation, route}) => {
   const [friendCode, setFriendCode] = useState("");
   let {pool} = route.params;
   let {user} = useAppState();
-  console.log(pool);
   const handleInvite = async () => {
     let data = {
       _id: user._id,

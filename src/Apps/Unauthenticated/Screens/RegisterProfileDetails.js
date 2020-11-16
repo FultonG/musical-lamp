@@ -123,7 +123,7 @@ const RegisterProfileDetails = () => {
             <TouchableOpacity activeOpacity={1} style={styles.touchableOpacity}>
               <TitleContainer>
                 <Title>Add <TextHighlight>Profile</TextHighlight> Details</Title>
-                <Paragraph>This information will be displayed on your <TextHighlight>Project</TextHighlight> Profile!</Paragraph>
+                <Paragraph>This information will be displayed on your <TextHighlight>FinFit</TextHighlight> Profile!</Paragraph>
               </TitleContainer>
               <IconContainer onPress={pickImage}>
                 {image ? <ProfileImage source={{ uri: image.uri }} /> : <Icon name="md-person-add" size={30} color="#6e66df"></Icon>}

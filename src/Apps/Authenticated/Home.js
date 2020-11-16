@@ -12,6 +12,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 import CreatePool from './CreatePool';
 import PoolList from './PoolList';
 import PoolInvite from './PoolInvites';
+import PoolView from './PoolView';
+import TaskList from './TaskList';
+import AddTask from './AddTask';
 
 const ExperienceCard = styled.View`
   height: 150px;
@@ -91,10 +94,10 @@ const Home = ({ navigation }) => {
                   <MetricInner>
                     <MaterialIcons name="group" size={50} color="white"></MaterialIcons>
                     <MetricText>Number of Pools</MetricText>
-                    <MetricText>{user.pools.length}</MetricText>
+                    <MetricText>{user?.pools.length}</MetricText>
                   </MetricInner>
                 </MetricCard>
-                <MetricCard color="#b090fc">
+                <MetricCard color="#b090fc" onPress={() => navigation.navigate('TaskList')}>
                   <MetricInner>
                     <Icon name="checklist" size={50} color="white" />
                     <MetricText>Tasks Completed</MetricText>
@@ -133,6 +136,9 @@ const HomeNavigator = () => {
       <Stack.Screen name="CreatePool" component={CreatePool}></Stack.Screen>
       <Stack.Screen name="PoolList" component={PoolList}></Stack.Screen>
       <Stack.Screen name="PoolInvite" component={PoolInvite}></Stack.Screen>
+      <Stack.Screen name="PoolView" component={PoolView}></Stack.Screen>
+      <Stack.Screen name="TaskList" component={TaskList}></Stack.Screen>
+      <Stack.Screen name="AddTask" component={AddTask}></Stack.Screen>
     </Stack.Navigator>
   )
 }

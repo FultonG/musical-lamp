@@ -35,7 +35,7 @@ const Register = ({navigation}) => {
   return (
     <PageContainer>
       <IntroContainer>
-        <Title>Welcome to <TextHighlight>Project</TextHighlight></Title>
+        <Title>Welcome to <TextHighlight>FinFit</TextHighlight></Title>
         <Paragraph>The fun and easy way to get Fit!</Paragraph>
         <RunningImage source={require('../../../../assets/running.png')}/>
       </IntroContainer>

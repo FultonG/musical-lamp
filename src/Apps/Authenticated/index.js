@@ -4,6 +4,7 @@ import { Button, ButtonText } from '../../Components/Button';
 import { useAppReducer } from '../../Context/AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from './Home';
+import PageContainer from '../../Components/PageContainer';
 
 const Profile = () => {
   let dispatch = useAppReducer();
@@ -13,7 +14,9 @@ const Profile = () => {
   }
 
   return(
-    <Button onPress={handleLogout}><ButtonText>Log out</ButtonText></Button>
+    <PageContainer>
+      <Button onPress={handleLogout}><ButtonText>Log out</ButtonText></Button>
+    </PageContainer>
   )
 }
 const Authenticated = () => {

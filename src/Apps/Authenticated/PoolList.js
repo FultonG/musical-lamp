@@ -59,12 +59,10 @@ const PoolCardText = styled.Text`
 const PoolList = ({navigation}) => {
   let { user } = useAppState();
   let [pools, setPools] = useState([]);
-  console.log(user);
   useEffect(() => {
     (async () => {
       try {
         let res = await API.getPools({ ids: user.pools })
-        console.log(res.data.response);
         setPools(res.data.response);
       } catch (e) {
         console.log(e.response.data?.response)
@@ -81,7 +79,7 @@ const PoolList = ({navigation}) => {
                 <Title>List of your currently <TextHighlight>active</TextHighlight> Pools</Title>
               </TitleContainer>
               {pools.map(pool => (
-                <PoolCard>
+                <PoolCard key={pool._id}onPress={() => navigation.navigate('PoolView', {pool})}>
                   <PoolCard as={View}>
                     <View>
                     <PoolCardTitle>{pool?.title}</PoolCardTitle>

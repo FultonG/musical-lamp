@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PageContainer from '../../Components/PageContainer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Paragraph, TextHighlight, Title } from '../../Components/Text';
-import { useAppState } from '../../Context/AppContext';
+import { useAppReducer, useAppState } from '../../Context/AppContext';
 import styled from 'styled-components/native';
 import { Keyboard, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
@@ -33,10 +33,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const CreatePool = () => {
+const CreatePool = ({navigation}) => {
   const [date, setDate] = useState(null);
   const [fee, setFee] = useState("");
   const [title, setTitle] = useState("");
+  let dispatch = useAppReducer();
   const handleDateSelect = (day) => {
     setDate(day.dateString);
   }
@@ -50,6 +51,9 @@ const CreatePool = () => {
         title
       }
       let res = await API.createPool(poolData);
+      await AsyncStorage.setItem('User', JSON.stringify(res.data.response.user));
+      dispatch({ type: 'UPDATE_USER', payload: { user: res.data.response.user, auth: true } })
+      navigation.navigate('HomeScreen');
     } catch (e) {
       console.log(e.message);
     }
